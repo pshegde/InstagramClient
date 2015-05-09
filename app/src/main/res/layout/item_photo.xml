@@ -4,13 +4,19 @@
     android:id="@+id/rlPhotos">
 
     <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivUserPic"
+        android:layout_alignParentTop="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"/>
+
+    <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:id="@+id/ivPhoto"
-        android:layout_alignParentTop="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-         android:adjustViewBounds="true"
+        android:layout_below="@+id/ivUserPic"
+        android:adjustViewBounds="true"
         android:scaleType="fitXY"
         android:minHeight="50dp"/>
 
@@ -26,4 +32,5 @@
         android:maxLines="3"
         android:ellipsize="end"
          />
+
 </RelativeLayout>

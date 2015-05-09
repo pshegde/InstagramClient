@@ -2,6 +2,7 @@ package com.pshegde.instagramclient;
 
 import android.os.Bundle;
 import android.support.v7.app.ActionBarActivity;
+import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ListView;
@@ -74,6 +75,8 @@ public class PhotosActivity extends ActionBarActivity {
                         photo.imageUrl = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
                         photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
                         photo.likeCount = photoJSON.getJSONObject("likes").getInt("count");
+                        photo.relativePostingTime = DateUtils.getRelativeTimeSpanString(photoJSON.getLong("created_time") * 1000,System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS).toString();
+                        photo.userProfilePic = photoJSON.getJSONObject("user").getString("profile_picture") ;
                         photos.add(photo);
                     }
                 }catch(JSONException e){
