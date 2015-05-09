@@ -11,6 +11,14 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"/>
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvRelativePostingTime"
+        android:layout_alignRight="@+id/ivUserPic"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
     <ImageView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -20,17 +28,41 @@
         android:scaleType="fitXY"
         android:minHeight="50dp"/>
 
+    <Button
+        android:id="@+id/btnLikesCount"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:drawableLeft="@drawable/likes_blue"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_below="@+id/ivPhoto"
+        android:textAllCaps="false"
+        android:textColor="@color/blue"
+        android:background="@color/transparent"
+     />
+
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvCaption"
-        android:layout_below="@+id/ivPhoto"
+        android:layout_below="@+id/btnLikesCount"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:minHeight="200dp"
         android:textSize="20sp"
         android:maxLines="3"
         android:ellipsize="end"
+        android:textColor="@color/blue"
          />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvComments"
+        android:layout_below="@+id/btnLikesCount"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_marginBottom="42dp"
+       />
 
 </RelativeLayout>

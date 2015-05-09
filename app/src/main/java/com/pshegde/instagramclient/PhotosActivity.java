@@ -67,16 +67,26 @@ public class PhotosActivity extends ActionBarActivity {
                         //decode attributes of json into a data model
                         InstagramPhoto photo = new InstagramPhoto();
                         //Author name: {"data" => [x] => "user" => "username"}
-                        photo.username = photoJSON.getJSONObject("user").getString("username");
+                        photo.setUsername(photoJSON.getJSONObject("user").getString("username"));
                         //caption: {"data" => [x] => "caption" => "text"}
-                        photo.caption = photoJSON.getJSONObject("caption").getString("text");
+                        photo.setCaption(photoJSON.getJSONObject("caption").getString("text"));
                         //Type: {"data" => [x] => "type"} {"image" or "video"}
                         //URL:{"data"=>[x] => "images" => "standard resolution" => "url"}
-                        photo.imageUrl = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url");
-                        photo.imageHeight = photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height");
-                        photo.likeCount = photoJSON.getJSONObject("likes").getInt("count");
-                        photo.relativePostingTime = DateUtils.getRelativeTimeSpanString(photoJSON.getLong("created_time") * 1000,System.currentTimeMillis(),DateUtils.SECOND_IN_MILLIS).toString();
-                        photo.userProfilePic = photoJSON.getJSONObject("user").getString("profile_picture") ;
+                        photo.setImageUrl(photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url"));
+                        photo.setImageHeight(photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height"));
+                        photo.setLikeCount(photoJSON.getJSONObject("likes").getInt("count"));
+                        photo.setRelativePostingTime(DateUtils.getRelativeTimeSpanString(photoJSON.getLong("created_time") * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString());
+                        photo.setUserProfilePic(photoJSON.getJSONObject("user").getString("profile_picture"));
+
+                        JSONArray commentsJSON = photoJSON.getJSONObject("comments").getJSONArray("data");
+                        for(int j=0;j<commentsJSON.length();j++){
+                            JSONObject commentJSON = commentsJSON.getJSONObject(j);
+                            InstagramComment comment = new InstagramComment();
+                            comment.setCreatedTime(DateUtils.getRelativeTimeSpanString(commentJSON.getLong("created_time")* 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString());
+                            comment.setText(commentJSON.getString("text"));
+                            comment.setUsername(commentJSON.getJSONObject("user").getString("username"));
+                            photo.addComment(comment);
+                        }
                         photos.add(photo);
                     }
                 }catch(JSONException e){

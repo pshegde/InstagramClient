@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -39,13 +40,34 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
         ImageView ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
         ImageView ivUserPic = (ImageView) convertView.findViewById(R.id.ivUserPic);
+        TextView tvRelativePostingTime = (TextView) convertView.findViewById(R.id.tvRelativePostingTime);
+        Button btnLikesCount = (Button) convertView.findViewById(R.id.btnLikesCount);
+        TextView tvComments = (TextView) convertView.findViewById(R.id.tvComments);
         //insert the model data into each of the view items
-        tvCaption.setText(photo.caption);
+        tvCaption.setText(photo.getCaption());
         //clear the imageview
         ivPhoto.setImageResource(0);
         //insert image using picasso
-        Picasso.with(getContext()).load(photo.imageUrl).into(ivPhoto);
-        Picasso.with(getContext()).load(photo.userProfilePic).into(ivUserPic);
+        Picasso.with(getContext()).load(photo.getImageUrl()).into(ivPhoto);
+        //Picasso.with(getContext()).load(photo.userProfilePic).into(ivUserPic);
+        Picasso.with(getContext()).load(photo.getUserProfilePic()).transform(new CircleTransform()).into(ivUserPic);
+        tvRelativePostingTime.setText(photo.getRelativePostingTime());
+        if(photo.getLikeCount() > 0) {
+            btnLikesCount.setText(photo.getLikeCount() + " likes");
+            btnLikesCount.setVisibility(View.VISIBLE);
+        } else {
+            btnLikesCount.setVisibility(View.INVISIBLE);
+        }
+        //display comments
+        if(photo.getComments().size() > 0) {
+            tvComments.setVisibility(View.VISIBLE);
+            for(InstagramComment comment:photo.getComments()) {
+                tvComments.setText(comment.getUsername() + " " + comment.getText() + "\n");
+            }
+            //tvComments.setTextColor();
+        } else {
+            tvComments.setVisibility(View.INVISIBLE);
+        }
         //return the created item as a view
         return convertView;
     }
