@@ -84,7 +84,7 @@ public class PhotosActivity extends ActionBarActivity {
                             InstagramComment comment = new InstagramComment();
                             comment.setCreatedTime(DateUtils.getRelativeTimeSpanString(commentJSON.getLong("created_time")* 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString());
                             comment.setText(commentJSON.getString("text"));
-                            comment.setUsername(commentJSON.getJSONObject("user").getString("username"));
+                            comment.setUsername(commentJSON.getJSONObject("from").getString("username"));
                             photo.addComment(comment);
                         }
                         photos.add(photo);

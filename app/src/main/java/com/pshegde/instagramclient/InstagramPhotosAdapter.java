@@ -1,6 +1,7 @@
 package com.pshegde.instagramclient;
 
 import android.content.Context;
+import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -59,12 +60,18 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             btnLikesCount.setVisibility(View.INVISIBLE);
         }
         //display comments
+        StringBuffer commentText=new StringBuffer();
         if(photo.getComments().size() > 0) {
             tvComments.setVisibility(View.VISIBLE);
             for(InstagramComment comment:photo.getComments()) {
-                tvComments.setText(comment.getUsername() + " " + comment.getText() + "\n");
+                commentText.append("<font color='#407399'>" + comment.getUsername() + "</font>&nbsp;" + comment.getText() + "<br>");
+
+                break;
             }
+            commentText.append("<br><font color='#407399'>View more comments</font><br>");
             //tvComments.setTextColor();
+            tvComments.setText(Html.fromHtml(commentText.toString()));
+           // String styledText =""; cache.timeView.setText(Html.fromHtml(styledText) )
         } else {
             tvComments.setVisibility(View.INVISIBLE);
         }
