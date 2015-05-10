@@ -83,7 +83,6 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             tvComments.setText(Html.fromHtml(commentText.toString()));
             if(photo.getComments().size() > 0) {
                 btnMoreComments.setText("View all " + photo.getComments().size() + " comments");
-                btnMoreComments.setTextColor(getContext().getResources().getColor(R.color.blue));
                 btnMoreComments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
