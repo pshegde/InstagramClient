@@ -49,10 +49,10 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         //clear the imageview
         ivPhoto.setImageResource(0);
         //insert image using picasso
-        Picasso.with(getContext()).load(photo.getImageUrl()).into(ivPhoto);
+        Picasso.with(getContext()).load(photo.getImageUrl()).placeholder(R.drawable.placeholder).into(ivPhoto);
         //Picasso.with(getContext()).load(photo.userProfilePic).into(ivUserPic);
-        if(photo.getUserProfilePic()!="")
-            Picasso.with(getContext()).load(photo.getUserProfilePic()).transform(new CircleTransform()).into(ivUserPic);
+        //if(photo.getUserProfilePic()!="")
+        Picasso.with(getContext()).load(photo.getUserProfilePic()).placeholder(R.drawable.placeholder).transform(new CircleTransform()).into(ivUserPic);
         tvRelativePostingTime.setText(photo.getRelativePostingTime());
         if(photo.getLikeCount() > 0) {
             btnLikesCount.setText(photo.getLikeCount() + " likes");
@@ -66,7 +66,6 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             tvComments.setVisibility(View.VISIBLE);
             for(InstagramComment comment:photo.getComments()) {
                 commentText.append("<font color='#407399'>" + comment.getUsername() + "</font>&nbsp;" + comment.getText() + "<br>");
-
                 break;
             }
             commentText.append("<br><font color='#407399'>View more comments</font><br>");

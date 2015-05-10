@@ -10,10 +10,10 @@
     >
 
     <ImageView
-        android:layout_width="wrap_content"
+        android:layout_width="50dp"
         android:layout_height="wrap_content"
         android:id="@+id/ivTitleBar"
-        android:src="@drawable/likes_white"
+        android:src="@drawable/camera_white"
 
         />
 
@@ -21,7 +21,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/tvTitleBar"
-        android:textSize="10sp"
+        android:textSize="15sp"
         android:layout_gravity="center_vertical"
         android:textColor="#FFFFFF"
         android:textStyle="italic"
