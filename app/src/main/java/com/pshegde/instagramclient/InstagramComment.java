@@ -1,9 +1,12 @@
 package com.pshegde.instagramclient;
 
+import android.os.Parcel;
+import android.os.Parcelable;
+
 /**
  * Created by Prajakta on 5/9/2015.
  */
-public class InstagramComment {
+public class InstagramComment implements Parcelable{
     private String text;
     private String username;
     private String createdTime;
@@ -30,5 +33,38 @@ public class InstagramComment {
 
     public void setCreatedTime(String createdTime) {
         this.createdTime = createdTime;
+    }
+
+    public int describeContents() {
+        return 0;
+    }
+
+    public void writeToParcel(Parcel out, int flags) {
+        out.writeString(text);
+        out.writeString(username);
+        out.writeString(createdTime);
+    }
+
+    public static final Parcelable.Creator<InstagramComment> CREATOR
+            = new Parcelable.Creator<InstagramComment>() {
+        public InstagramComment createFromParcel(Parcel in) {
+            return new InstagramComment(in);
+        }
+
+        public InstagramComment[] newArray(int size) {
+            return new InstagramComment[size];
+        }
+    };
+
+    public InstagramComment() {
+        text = "";
+        username = "";
+        createdTime = "";
+    }
+
+    private InstagramComment(Parcel in) {
+        text = in.readString();
+        username = in.readString();
+        createdTime = in.readString();
     }
 }

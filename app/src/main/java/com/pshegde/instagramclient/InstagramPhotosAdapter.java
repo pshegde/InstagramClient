@@ -1,6 +1,7 @@
 package com.pshegde.instagramclient;
 
 import android.content.Context;
+import android.content.Intent;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -12,6 +13,7 @@ import android.widget.TextView;
 
 import com.squareup.picasso.Picasso;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -20,8 +22,10 @@ import java.util.List;
 public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
     //what data we need from activity
     //context, datasource
+    Context context ;
     public InstagramPhotosAdapter(Context context, List<InstagramPhoto> objects) {
         super(context, android.R.layout.simple_list_item_1, objects);
+        this.context = context;
     }
     //what out item looks like
     //Use template to display each photo
@@ -31,7 +35,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         //return super.getView(position, convertView, parent);
 
         //get the data item for this position
-        InstagramPhoto photo = getItem(position);
+        final InstagramPhoto photo = getItem(position);
         //check if we are using a recycled view, if not we need to inflate
         if (convertView == null){
             //create new view from template
@@ -44,6 +48,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         TextView tvRelativePostingTime = (TextView) convertView.findViewById(R.id.tvRelativePostingTime);
         Button btnLikesCount = (Button) convertView.findViewById(R.id.btnLikesCount);
         TextView tvComments = (TextView) convertView.findViewById(R.id.tvComments);
+        Button btnMoreComments = (Button) convertView.findViewById(R.id.btnMoreComments);
         //insert the model data into each of the view items
         tvCaption.setText(photo.getCaption());
         //clear the imageview
@@ -68,9 +73,24 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
                 commentText.append("<font color='#407399'>" + comment.getUsername() + "</font>&nbsp;" + comment.getText() + "<br>");
                 break;
             }
-            commentText.append("<br><font color='#407399'>View more comments</font><br>");
+            //commentText.append("<br><font color='#407399'>View all " + photo.getComments().size() + " comments</font><br>");
             //tvComments.setTextColor();
             tvComments.setText(Html.fromHtml(commentText.toString()));
+            if(photo.getComments().size() > 0) {
+                btnMoreComments.setText("View all " + photo.getComments().size() + " comments");
+                btnMoreComments.setTextColor(getContext().getResources().getColor(R.color.blue));
+                btnMoreComments.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent i = new Intent(context, CommentActivity.class);
+                        i.putParcelableArrayListExtra("comments_list", (ArrayList<InstagramComment>) photo.getComments());
+                        //                    i.putExtra("position_clicked_item", position);
+                        //                    i.putExtra("priority_clicked_item",items.get(position).getPriority());
+                        //startActivity(i); // brings up the second activity
+                        context.startActivity(i);
+                    }
+                });
+            }
            // String styledText =""; cache.timeView.setText(Html.fromHtml(styledText) )
         } else {
             tvComments.setVisibility(View.INVISIBLE);

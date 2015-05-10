@@ -26,8 +26,6 @@ public class PhotosActivity extends ActionBarActivity {
     private ArrayList<InstagramPhoto> photos;
     private InstagramPhotosAdapter aPhotos;
     private SwipeRefreshLayout swipeContainer;
-    private AsyncHttpClient client = new AsyncHttpClient();
-    private String url = "https://api.instagram.com/v1/media/popular?client_id=" + CLIENT_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
