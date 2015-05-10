@@ -116,6 +116,8 @@ public class PhotosActivity extends ActionBarActivity {
                     photosJSON = response.getJSONArray("data");
                     //iterate array of posts
                     for(int i=0;i<photosJSON.length();i++){
+                        if(photosJSON == null)
+                            continue;
                         JSONObject photoJSON = photosJSON.getJSONObject(i);
                         //decode attributes of json into a data model
                         InstagramPhoto photo = new InstagramPhoto();
@@ -142,6 +144,7 @@ public class PhotosActivity extends ActionBarActivity {
                                 comment.setCreatedTime(DateUtils.getRelativeTimeSpanString(commentJSON.getLong("created_time") * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString());
                                 comment.setText(commentJSON.getString("text"));
                                 comment.setUsername(commentJSON.getJSONObject("from").getString("username"));
+                                comment.setProfilePic(commentJSON.getJSONObject("from").getString("profile_picture"));
                                 photo.addComment(comment);
                             }
                         }

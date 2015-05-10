@@ -10,6 +10,15 @@ public class InstagramComment implements Parcelable{
     private String text;
     private String username;
     private String createdTime;
+    private String profilePic;
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
 
     public String getText() {
         return text;
@@ -43,6 +52,7 @@ public class InstagramComment implements Parcelable{
         out.writeString(text);
         out.writeString(username);
         out.writeString(createdTime);
+        out.writeString(profilePic);
     }
 
     public static final Parcelable.Creator<InstagramComment> CREATOR
@@ -60,11 +70,13 @@ public class InstagramComment implements Parcelable{
         text = "";
         username = "";
         createdTime = "";
+        profilePic = "";
     }
 
     private InstagramComment(Parcel in) {
         text = in.readString();
         username = in.readString();
         createdTime = in.readString();
+        profilePic = in.readString();
     }
 }

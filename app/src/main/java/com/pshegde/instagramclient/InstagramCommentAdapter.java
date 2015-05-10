@@ -40,8 +40,8 @@ public class InstagramCommentAdapter extends ArrayAdapter<InstagramComment> {
         TextView tvPostingTime = (TextView) convertView.findViewById(R.id.tvRelativePostingTimeComment);
 
         Picasso.with(getContext()).load(comment.getProfilePic()).placeholder(R.drawable.placeholder).into(ivUserPic);
-        tvComment.setText(Html.fromHtml("<font color='#407399'>" + comment.getUsername() + "</font>&nbsp;" + comment.getText() + "<br>"));
-        tvPostingTime.setText(comment.getCreatedTime());
+        tvComment.setText(Html.fromHtml("&nbsp;<font color='#407399'>" + comment.getUsername() + "</font>&nbsp;" + comment.getText() + "<br>"));
+        tvPostingTime.setText(Html.fromHtml("&nbsp;"+ comment.getCreatedTime()));
         return convertView;
     }
 }
