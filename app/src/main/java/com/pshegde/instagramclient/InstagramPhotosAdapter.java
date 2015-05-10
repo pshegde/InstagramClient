@@ -43,6 +43,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         }
         //lookup views for popukating data (image,caption)
         TextView tvCaption = (TextView) convertView.findViewById(R.id.tvCaption);
+        TextView tvUsername = (TextView) convertView.findViewById(R.id.tvUsername);
         ImageView ivPhoto = (ImageView) convertView.findViewById(R.id.ivPhoto);
         ImageView ivUserPic = (ImageView) convertView.findViewById(R.id.ivUserPic);
         TextView tvRelativePostingTime = (TextView) convertView.findViewById(R.id.tvRelativePostingTime);
@@ -50,14 +51,15 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         TextView tvComments = (TextView) convertView.findViewById(R.id.tvComments);
         Button btnMoreComments = (Button) convertView.findViewById(R.id.btnMoreComments);
         //insert the model data into each of the view items
-        tvCaption.setText(photo.getCaption());
+        tvCaption.setText(Html.fromHtml("<font color='#407399'>" + photo.getUsername() + "</font>&nbsp;<font color='#808080'>" + photo.getCaption() + "</font><br>"));
+        tvUsername.setText(Html.fromHtml("&nbsp;<font color='#808080'>" + photo.getUsername() + "</font>"));
         //clear the imageview
         ivPhoto.setImageResource(0);
         //insert image using picasso
         Picasso.with(getContext()).load(photo.getImageUrl()).placeholder(R.drawable.placeholder).into(ivPhoto);
         //Picasso.with(getContext()).load(photo.userProfilePic).into(ivUserPic);
         //if(photo.getUserProfilePic()!="")
-        Picasso.with(getContext()).load(photo.getUserProfilePic()).placeholder(R.drawable.placeholder).transform(new CircleTransform()).into(ivUserPic);
+        Picasso.with(getContext()).load(photo.getUserProfilePic()).placeholder(R.drawable.placeholder).into(ivUserPic);
         tvRelativePostingTime.setText(photo.getRelativePostingTime());
         if(photo.getLikeCount() > 0) {
             btnLikesCount.setText(photo.getLikeCount() + " likes");
