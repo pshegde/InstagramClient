@@ -73,7 +73,7 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             tvComments.setVisibility(View.VISIBLE);
             int i=0;
             for(InstagramComment comment:photo.getComments()) {
-                if(i==3)
+                if(i==2)
                     break;
                 commentText.append("<font color='#407399'>" + comment.getUsername() + "</font>&nbsp;" + comment.getText() + "<br>");
                 i++;
