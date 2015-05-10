@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/title_bar_layout"
+    android:orientation="horizontal"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:gravity="center_vertical"
+    android:paddingLeft="5dip"
+    android:background="#407399"
+    >
+
+    <ImageView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/ivTitleBar"
+        android:src="@drawable/likes_white"
+
+        />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/tvTitleBar"
+        android:textSize="10sp"
+        android:layout_gravity="center_vertical"
+        android:textColor="#FFFFFF"
+        android:textStyle="italic"
+        android:text="@string/app_name"
+
+        />
+
+</LinearLayout>

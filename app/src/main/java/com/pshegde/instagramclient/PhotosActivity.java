@@ -5,6 +5,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateUtils;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ListView;
 
 import com.loopj.android.http.AsyncHttpClient;
@@ -26,8 +27,21 @@ public class PhotosActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+        requestWindowFeature(Window.FEATURE_CUSTOM_TITLE);
+
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_photos);
+        getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar_layout);
+        getSupportActionBar().hide();
+//        LinearLayout myTitleBar = (LinearLayout) findViewById(R.id.title_bar_layout);
+////        TextView tvTitleBar = (TextView)myTitleBar.findViewById(R.id.tvTitleBar);
+////        tvTitleBar.setText(R.string.app_name);
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.title_bar_layout);
+//        getSupportActionBar().
+
         //send out api requests to photos android async http and picasso android
         photos = new ArrayList<>();
         //create the adapter linking it to the source
@@ -67,25 +81,30 @@ public class PhotosActivity extends ActionBarActivity {
                         //decode attributes of json into a data model
                         InstagramPhoto photo = new InstagramPhoto();
                         //Author name: {"data" => [x] => "user" => "username"}
-                        photo.setUsername(photoJSON.getJSONObject("user").getString("username"));
+                        if(photoJSON.getJSONObject("user") != null)
+                            photo.setUsername(photoJSON.getJSONObject("user").getString("username"));
                         //caption: {"data" => [x] => "caption" => "text"}
-                        photo.setCaption(photoJSON.getJSONObject("caption").getString("text"));
+                        if(photoJSON.getJSONObject("caption") != null)
+                            photo.setCaption(photoJSON.getJSONObject("caption").getString("text"));
                         //Type: {"data" => [x] => "type"} {"image" or "video"}
                         //URL:{"data"=>[x] => "images" => "standard resolution" => "url"}
                         photo.setImageUrl(photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getString("url"));
                         photo.setImageHeight(photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height"));
-                        photo.setLikeCount(photoJSON.getJSONObject("likes").getInt("count"));
+                        if(photoJSON.getJSONObject("likes") != null)
+                            photo.setLikeCount(photoJSON.getJSONObject("likes").getInt("count"));
                         photo.setRelativePostingTime(DateUtils.getRelativeTimeSpanString(photoJSON.getLong("created_time") * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString());
-                        photo.setUserProfilePic(photoJSON.getJSONObject("user").getString("profile_picture"));
-
-                        JSONArray commentsJSON = photoJSON.getJSONObject("comments").getJSONArray("data");
-                        for(int j=0;j<commentsJSON.length();j++){
-                            JSONObject commentJSON = commentsJSON.getJSONObject(j);
-                            InstagramComment comment = new InstagramComment();
-                            comment.setCreatedTime(DateUtils.getRelativeTimeSpanString(commentJSON.getLong("created_time")* 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString());
-                            comment.setText(commentJSON.getString("text"));
-                            comment.setUsername(commentJSON.getJSONObject("from").getString("username"));
-                            photo.addComment(comment);
+                        if(photoJSON.getJSONObject("user") != null)
+                            photo.setUserProfilePic(photoJSON.getJSONObject("user").getString("profile_picture"));
+                        if(photoJSON.getJSONObject("comments") != null) {
+                            JSONArray commentsJSON = photoJSON.getJSONObject("comments").getJSONArray("data");
+                            for (int j = 0; j < commentsJSON.length(); j++) {
+                                JSONObject commentJSON = commentsJSON.getJSONObject(j);
+                                InstagramComment comment = new InstagramComment();
+                                comment.setCreatedTime(DateUtils.getRelativeTimeSpanString(commentJSON.getLong("created_time") * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString());
+                                comment.setText(commentJSON.getString("text"));
+                                comment.setUsername(commentJSON.getJSONObject("from").getString("username"));
+                                photo.addComment(comment);
+                            }
                         }
                         photos.add(photo);
                     }

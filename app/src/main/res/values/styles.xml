@@ -3,6 +3,23 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
         <!-- Customize your theme here. -->
+
     </style>
 
+    <style name="CustomWindowTitleBackground">
+
+        <item name="android:background">#407399</item>
+
+    </style>
+
+
+    <style name="CustomTheme" parent="AppTheme">
+
+        <item name="android:windowTitleSize">50dip</item>
+
+        <item name="android:windowTitleBackgroundStyle">@style/CustomWindowTitleBackground</item>
+        <item name="android:windowNoTitle">false</item>
+        <!--<item name="android:windowActionBar">false</item>-->
+
+    </style>
 </resources>

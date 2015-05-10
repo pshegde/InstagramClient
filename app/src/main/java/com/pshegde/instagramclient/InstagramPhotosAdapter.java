@@ -51,7 +51,8 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         //insert image using picasso
         Picasso.with(getContext()).load(photo.getImageUrl()).into(ivPhoto);
         //Picasso.with(getContext()).load(photo.userProfilePic).into(ivUserPic);
-        Picasso.with(getContext()).load(photo.getUserProfilePic()).transform(new CircleTransform()).into(ivUserPic);
+        if(photo.getUserProfilePic()!="")
+            Picasso.with(getContext()).load(photo.getUserProfilePic()).transform(new CircleTransform()).into(ivUserPic);
         tvRelativePostingTime.setText(photo.getRelativePostingTime());
         if(photo.getLikeCount() > 0) {
             btnLikesCount.setText(photo.getLikeCount() + " likes");

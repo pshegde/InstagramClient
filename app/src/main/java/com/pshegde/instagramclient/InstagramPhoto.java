@@ -19,6 +19,9 @@ public class InstagramPhoto {
     public InstagramPhoto() {
         super();
         comments = new ArrayList<>();
+        userProfilePic ="";
+        username="";
+        likeCount=0;
     }
 
     public String getUsername() {
