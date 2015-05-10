@@ -1,6 +1,7 @@
 package com.pshegde.instagramclient;
 
 import android.os.Bundle;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.ActionBarActivity;
 import android.text.format.DateUtils;
 import android.view.Menu;
@@ -24,6 +25,9 @@ public class PhotosActivity extends ActionBarActivity {
     public static final String CLIENT_ID="09cd591825394bbc9c99380d086a4012";
     private ArrayList<InstagramPhoto> photos;
     private InstagramPhotosAdapter aPhotos;
+    private SwipeRefreshLayout swipeContainer;
+    private AsyncHttpClient client = new AsyncHttpClient();
+    private String url = "https://api.instagram.com/v1/media/popular?client_id=" + CLIENT_ID;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +39,6 @@ public class PhotosActivity extends ActionBarActivity {
         setContentView(R.layout.activity_photos);
         getWindow().setFeatureInt(Window.FEATURE_CUSTOM_TITLE, R.layout.title_bar_layout);
         getSupportActionBar().hide();
-//        LinearLayout myTitleBar = (LinearLayout) findViewById(R.id.title_bar_layout);
-////        TextView tvTitleBar = (TextView)myTitleBar.findViewById(R.id.tvTitleBar);
-////        tvTitleBar.setText(R.string.app_name);
-//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
-//        getSupportActionBar().setCustomView(R.layout.title_bar_layout);
-//        getSupportActionBar().
 
         //send out api requests to photos android async http and picasso android
         photos = new ArrayList<>();
@@ -50,9 +48,52 @@ public class PhotosActivity extends ActionBarActivity {
         ListView lvPhotos = (ListView) findViewById(R.id.lvPhotos);
         //set the adapter binding it to the listview
         lvPhotos.setAdapter(aPhotos);
-        //fetch the popular photos
-        fetchPopularPhotos();
+
+        swipeContainer = (SwipeRefreshLayout) findViewById(R.id.swipeContainer);
+        // Setup refresh listener which triggers new data loading
+        swipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                // Your code to refresh the list here.
+                // Make sure you call swipeContainer.setRefreshing(false)
+                // once the network request has completed successfully.
+                fetchPopularPhotos();
+            }
+        });
+        // Configure the refreshing colors
+        swipeContainer.setColorSchemeResources(android.R.color.holo_blue_bright,
+                android.R.color.holo_green_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_red_light);
+
+//        LinearLayout myTitleBar = (LinearLayout) findViewById(R.id.title_bar_layout);
+////        TextView tvTitleBar = (TextView)myTitleBar.findViewById(R.id.tvTitleBar);
+////        tvTitleBar.setText(R.string.app_name);
+//        getSupportActionBar().setDisplayOptions(ActionBar.DISPLAY_SHOW_CUSTOM);
+//        getSupportActionBar().setCustomView(R.layout.title_bar_layout);
+//        getSupportActionBar().
+//
+//
+//        //fetch the popular photos
+//        fetchPopularPhotos();
     }
+
+//    public void fetchTimelineAsync(int page) {
+//        client.getHomeTimeline(0, new JsonHttpResponseHandler() {
+//            public void onSuccess(JSONArray json) {
+//                // Remember to CLEAR OUT old items before appending in the new ones
+//                aPhotos.clear();
+//                // ...the data has come back, add new items to your adapter...
+//                aPhotos.addAll(...);
+//                // Now we call setRefreshing(false) to signal refresh has finished
+//                swipeContainer.setRefreshing(false);
+//            }
+//
+//            public void onFailure(Throwable e) {
+//                Log.d("DEBUG", "Fetch timeline error: " + e.toString());
+//            }
+//        });
+//    }
 
     //trigger api request
     public void fetchPopularPhotos(){
@@ -114,6 +155,8 @@ public class PhotosActivity extends ActionBarActivity {
 
                 //callback
                 aPhotos.notifyDataSetChanged();
+
+                swipeContainer.setRefreshing(false);
             }
 
             @Override
