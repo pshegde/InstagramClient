@@ -69,9 +69,12 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         StringBuffer commentText=new StringBuffer();
         if(photo.getComments().size() > 0) {
             tvComments.setVisibility(View.VISIBLE);
+            int i=0;
             for(InstagramComment comment:photo.getComments()) {
+                if(i==3)
+                    break;
                 commentText.append("<font color='#407399'>" + comment.getUsername() + "</font>&nbsp;" + comment.getText() + "<br>");
-                break;
+                i++;
             }
             //commentText.append("<br><font color='#407399'>View all " + photo.getComments().size() + " comments</font><br>");
             //tvComments.setTextColor();
