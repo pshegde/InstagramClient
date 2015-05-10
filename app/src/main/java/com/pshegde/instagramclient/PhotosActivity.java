@@ -116,9 +116,9 @@ public class PhotosActivity extends ActionBarActivity {
                     photosJSON = response.getJSONArray("data");
                     //iterate array of posts
                     for(int i=0;i<photosJSON.length();i++){
-                        if(photosJSON == null)
-                            continue;
                         JSONObject photoJSON = photosJSON.getJSONObject(i);
+                        if(photoJSON == null)
+                            continue;
                         //decode attributes of json into a data model
                         InstagramPhoto photo = new InstagramPhoto();
                         //Author name: {"data" => [x] => "user" => "username"}
@@ -133,7 +133,8 @@ public class PhotosActivity extends ActionBarActivity {
                         photo.setImageHeight(photoJSON.getJSONObject("images").getJSONObject("standard_resolution").getInt("height"));
                         if(photoJSON.getJSONObject("likes") != null)
                             photo.setLikeCount(photoJSON.getJSONObject("likes").getInt("count"));
-                        photo.setRelativePostingTime(DateUtils.getRelativeTimeSpanString(photoJSON.getLong("created_time") * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString());
+
+                        photo.setRelativePostingTime(getPostingTime(photoJSON.getLong("created_time")));
                         if(photoJSON.getJSONObject("user") != null)
                             photo.setUserProfilePic(photoJSON.getJSONObject("user").getString("profile_picture"));
                         if(photoJSON.getJSONObject("comments") != null) {
@@ -188,5 +189,13 @@ public class PhotosActivity extends ActionBarActivity {
         }
 
         return super.onOptionsItemSelected(item);
+    }
+
+    private String getPostingTime(long time){
+        String relativeTime = DateUtils.getRelativeTimeSpanString(time * 1000, System.currentTimeMillis(), DateUtils.SECOND_IN_MILLIS).toString();
+        return relativeTime.replace("minutes","m").replace("weeks","w").replace("hours","h").replace("seconds","s").replace("minute","m")
+                .replace("days","d").replace("day","d")
+                .replace("week","w").replace("hour","h")
+                .replace("second","s").replace("ago","").replace("in","").replace(" ","");
     }
 }
