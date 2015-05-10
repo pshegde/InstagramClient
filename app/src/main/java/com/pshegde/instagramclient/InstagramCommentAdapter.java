@@ -6,7 +6,10 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.squareup.picasso.Picasso;
 
 import java.util.List;
 
@@ -33,7 +36,12 @@ public class InstagramCommentAdapter extends ArrayAdapter<InstagramComment> {
             convertView = LayoutInflater.from(getContext()).inflate(R.layout.item_comment, parent, false);
         }
         TextView tvComment = (TextView) convertView.findViewById(R.id.tvComment);
+        ImageView ivUserPic = (ImageView) convertView.findViewById(R.id.ivUserPicForComment);
+        TextView tvPostingTime = (TextView) convertView.findViewById(R.id.tvRelativePostingTimeComment);
+
+        Picasso.with(getContext()).load(comment.getProfilePic()).placeholder(R.drawable.placeholder).into(ivUserPic);
         tvComment.setText(Html.fromHtml("<font color='#407399'>" + comment.getUsername() + "</font>&nbsp;" + comment.getText() + "<br>"));
+        tvPostingTime.setText(comment.getCreatedTime());
         return convertView;
     }
 }

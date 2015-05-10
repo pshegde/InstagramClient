@@ -82,15 +82,14 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
             //tvComments.setTextColor();
             tvComments.setText(Html.fromHtml(commentText.toString()));
             if(photo.getComments().size() > 0) {
-                btnMoreComments.setText("View all " + photo.getComments().size() + " comments");
+                btnMoreComments.setText("view all " + photo.getComments().size() + " comments");
                 btnMoreComments.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
                         Intent i = new Intent(context, CommentActivity.class);
                         i.putParcelableArrayListExtra("comments_list", (ArrayList<InstagramComment>) photo.getComments());
-                        //                    i.putExtra("position_clicked_item", position);
-                        //                    i.putExtra("priority_clicked_item",items.get(position).getPriority());
-                        //startActivity(i); // brings up the second activity
+
+                        // brings up the second activity
                         context.startActivity(i);
                     }
                 });
