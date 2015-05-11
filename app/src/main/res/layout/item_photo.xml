@@ -54,9 +54,17 @@
     android:layout_below="@+id/ivUserPic"
     android:adjustViewBounds="true"
     android:scaleType="fitXY"
-    android:minHeight="50dp"
     android:paddingTop="@dimen/padding"
     />
+
+    <VideoView
+        android:id="@+id/vvVideo"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="@dimen/padding"
+        android:scaleType="fitXY"
+        android:layout_below="@+id/ivUserPic"
+        android:visibility="invisible"/>
 
 <Button
     android:id="@+id/btnLikesCount"

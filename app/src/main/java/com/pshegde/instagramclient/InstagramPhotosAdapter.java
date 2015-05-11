@@ -2,6 +2,8 @@ package com.pshegde.instagramclient;
 
 import android.content.Context;
 import android.content.Intent;
+import android.media.MediaPlayer;
+import android.net.Uri;
 import android.text.Html;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -9,7 +11,9 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.MediaController;
 import android.widget.TextView;
+import android.widget.VideoView;
 
 import com.squareup.picasso.Picasso;
 
@@ -50,13 +54,47 @@ public class InstagramPhotosAdapter extends ArrayAdapter<InstagramPhoto> {
         Button btnLikesCount = (Button) convertView.findViewById(R.id.btnLikesCount);
         TextView tvComments = (TextView) convertView.findViewById(R.id.tvComments);
         Button btnMoreComments = (Button) convertView.findViewById(R.id.btnMoreComments);
+        final VideoView vvVideo = (VideoView) convertView.findViewById(R.id.vvVideo);
         //insert the model data into each of the view items
         tvCaption.setText(Html.fromHtml("<font color='#407399'>" + photo.getUsername() + "</font>&nbsp;<font color='#808080'>" + photo.getCaption() + "</font><br>"));
         tvUsername.setText(Html.fromHtml("&nbsp;<font color='#808080'>" + photo.getUsername() + "</font>"));
-        //clear the imageview
-        ivPhoto.setImageResource(0);
-        //insert image using picasso
-        Picasso.with(getContext()).load(photo.getImageUrl()).placeholder(R.drawable.placeholder).into(ivPhoto);
+        if(photo.getImageUrl().endsWith("mp4") || photo.getImageUrl().endsWith("3gp")){
+            ivPhoto.setVisibility(View.INVISIBLE);
+            vvVideo.setVisibility(View.VISIBLE);
+//            // Create a progressbar
+//            final ProgressDialog pDialog = new ProgressDialog(getContext());
+//            // Set progressbar title
+//            pDialog.setTitle("Android Video Streaming Tutorial");
+//            // Set progressbar message
+//            pDialog.setMessage("Buffering...");
+//            pDialog.setIndeterminate(false);
+//            pDialog.setCancelable(false);
+//            // Show progressbar
+//            pDialog.show();
+
+           // vvVideo.setVideoPath(photo.getImageUrl());
+            Uri video = Uri.parse(photo.getImageUrl());
+            //videoview.setMediaController(mediacontroller);
+            vvVideo.setVideoURI(video);
+            MediaController mediaController = new MediaController(getContext());
+            mediaController.setAnchorView(vvVideo);
+            vvVideo.setMediaController(mediaController);
+            vvVideo.requestFocus();
+            vvVideo.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
+                // Close the progress bar and play the video
+                public void onPrepared(MediaPlayer mp) {
+                    vvVideo.start();
+                    //pDialog.dismiss();
+                }
+            });
+        } else {
+            ivPhoto.setVisibility(View.VISIBLE);
+            vvVideo.setVisibility(View.INVISIBLE);
+            //clear the imageview
+            ivPhoto.setImageResource(0);
+            //insert image using picasso
+            Picasso.with(getContext()).load(photo.getImageUrl()).placeholder(R.drawable.placeholder).into(ivPhoto);
+        }
         //Picasso.with(getContext()).load(photo.userProfilePic).into(ivUserPic);
         //if(photo.getUserProfilePic()!="")
         Picasso.with(getContext()).load(photo.getUserProfilePic()).placeholder(R.drawable.placeholder).into(ivUserPic);
