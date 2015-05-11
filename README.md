@@ -1,5 +1,6 @@
 # InstagramClient
-Android app for instagram<br>
+Android app client for instagram<br>
+This app is developed using the requirements provided [here] (http://courses.codepath.com/courses/intro_to_android/week/1#!assignment)
 
 User stories implemented are:<br>
 
@@ -18,11 +19,12 @@ relative timestamp, like count, user profile image<br>
 -Create a titlebar <br>
 -Create launcher<br>
 
-How many hours did it take to complete? 20
+How many hours did it take to complete? 20<br>
 
-Resources included via Gradle:
-https://github.com/loopj/android-async-http
-https://github.com/hdodenhof/CircleImageView
-https://github.com/square/picasso
+Resources included via Gradle:<br>
+https://github.com/loopj/android-async-http<br>
+https://github.com/hdodenhof/CircleImageView<br>
+https://github.com/square/picasso<br>
 
-GIF walkthrough of all required and optional stories (using LiceCap)
+GIF walkthrough of all required and optional stories (using LiceCap)<br>
+![alt tag] (https://github.com/pshegde/InstagramClient/blob/master/instagram_walkthrough.gif)
